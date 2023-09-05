@@ -1,9 +1,0 @@
-{
-  "name": "socket-server",
-  "version": "0.0.1",
-  "description": "Socket server for nextjs + react pointing poker app.",
-  "dependencies": {
-    "express": "^4.18.2",
-    "socket-io": "^1.0.0"
-  }
-}
