@@ -1,4 +1,4 @@
-## Getting Started
+## How to run the app locally
 
 Run the socket.io server (hosts server sockets):
 ```bash
