@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import {Link as MLink} from '@mui/material';
 import Image from "next/image";
 import logo from "@/public/casino-chip.png";
 import {Button} from "@mui/material";
@@ -15,7 +16,7 @@ const Navbar = () => {
         </div>
         <div className={"flex gap-4 justify-center items-center pr-4"}>
             <Link href="/new-game/" className={"text-indigo-500 font-bold hover:text-indigo-400 uppercase"}>New Game</Link>
-            <Link href="#">Guest</Link>
+            <Link href="#" >Guest</Link>
         </div>
       </nav>
   );

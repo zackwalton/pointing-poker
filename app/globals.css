@@ -4,7 +4,7 @@
 
 :root {
   --foreground: black;
-  --accent: theme('colors.indigo.600');
+  --accent: theme('colors.indigo.500');
   --background: white;
 }
 
@@ -12,4 +12,13 @@ body {
   color: var(--foreground);
   font-weight: 450;
   background: var(--background);
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent);
+
+  &:hover {
+    color: darken();
+  }
 }

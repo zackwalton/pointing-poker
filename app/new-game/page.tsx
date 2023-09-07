@@ -1,19 +1,14 @@
 'use client'
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {Button, TextField} from "@mui/material";
 import {useState} from "react";
-import Link from "next/link";
 
 export default function NewGame() {
 
-    const [votingSystem, setVotingSystem] = useState<string>("fibonacci")
-    const [revealPermissions, setRevealPermissions] = useState<string>("all-players")
-    const [issuePermissions, setIssuePermissions] = useState<string>("all-players")
-    const [showAdvancedSettings, setShowAdvancedSettings] = useState<boolean>(false);
+    const [votingSystem, setVotingSystem] = useState<string>("fibonacci");
 
     return (
         <div className={"flex align-middle justify-center"}>
@@ -39,7 +34,7 @@ export default function NewGame() {
                             deck... (coming soon)</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant={"contained"}>Create game</Button>
+                <Button variant={"contained"} className={""}>Create game</Button>
             {/* todo : https://mui.com/material-ui/guides/interoperability/#tailwind-css*/}
             </div>
         </div>
