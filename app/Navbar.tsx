@@ -7,7 +7,7 @@ import casinoChip from "@/public/casino-chip.png";
 
 const Navbar = () => {
   return (
-      <nav className={"flex justify-between h-14 p-1"}>
+      <nav className={"flex justify-between h-14 fixed top-0 w-full "}>
         <div className={"flex"}>
           <Image className={"w-[2.0625rem] overflow-hidden md:w-auto"} src={casinoChip} alt="Casino Chip" height={25}/>
           <p className={"text-2xl font-bold p-2 rounded-lg text-gray-300"}>Pointing Poker</p>

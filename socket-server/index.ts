@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
   });
   socket.on("check-room", (room) => {
     const existingRoom = io.of("/").adapter.rooms.get(room.toString())
-    socket.emit(`room-${room}-exists`, existingRoom)
+    socket.on(room.toString()).emit(`room-${room}-exists`, existingRoom)
   })
   socket.on("user-join-room", (room) => {
     const existingRoom = io.of("/").adapter.rooms.get(room.toString())

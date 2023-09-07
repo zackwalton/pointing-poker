@@ -8,7 +8,7 @@ const roboto = Roboto({weight: "400", subsets: ['latin']})
 
 export const metadata: Metadata = {
   title: 'Planning Poker',
-  description: 'Planning poker app for ',
+  description: 'Planning poker app for agile scrum development',
 }
 
 export default function RootLayout({
