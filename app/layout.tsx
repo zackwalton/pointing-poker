@@ -18,10 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className + " bg-slate-800"}>
+      <body className={roboto.className}>
         <Navbar />
-        {children}
-        <Footer />
+          <div className={"pt-14 pb-[50px]"}>
+            {children}
+          </div>
+          <Footer />
       </body>
     </html>
   )

@@ -3,11 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: #687185FF;
-  --background-rgb: #282c34;
+  --foreground: black;
+  --accent: theme('colors.indigo.600');
+  --background: white;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: var(--background-rgb);
+  color: var(--foreground);
+  font-weight: 450;
+  background: var(--background);
 }
