@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --foreground: black;
   --accent: theme('colors.indigo.500');
   --background: white;
 }
 
 body {
-  color: var(--foreground);
+  color: black;
   font-weight: 450;
   background: var(--background);
 }
@@ -17,8 +16,8 @@ body {
 a {
   text-decoration: none;
   color: var(--accent);
+}
 
-  &:hover {
-    color: darken();
-  }
+a:hover {
+  filter: brightness(80%);
 }

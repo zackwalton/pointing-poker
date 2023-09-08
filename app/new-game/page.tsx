@@ -2,18 +2,45 @@
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {Button, TextField} from "@mui/material";
-import {useState} from "react";
+import {Button, Select, TextField} from "@mui/material";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import slugify from "slugify";
 
 export default function NewGame() {
+    const router = useRouter();
 
+    const [roomName, setRoomName] = useState<string>("");
+    const [nameError, setNameError] = useState<string>("");
+    const [roomID, setRoomID] = useState<string>();
     const [votingSystem, setVotingSystem] = useState<string>("fibonacci");
+
+    useEffect(() => {
+        setRoomID(generateRoomID());
+    }, [roomName])
+
+    function generateRoomID() {
+        return slugify(roomName != "" ? roomName : "Planning Poker Game",
+            {lower: true, remove: /[*+~.()'"!:@#^]/g, strict: true}) + '-' + Math.random().toString().slice(2, 10)
+    }
+
+    const roomNameMax = 50;
 
     return (
         <div className={"flex align-middle justify-center"}>
             <div className={"w-2/3 h-2/3 flex flex-col gap-5"}>
-                <TextField id={"name"} label={"Session name"} variant={"outlined"}></TextField>
+                <TextField id={"name"} label={"Session name"} variant={"outlined"} error={!!nameError} inputProps={{maxLength: roomNameMax}}
+                           helperText={nameError || `${roomName.length}/${roomNameMax}`} onChange={(event) => {
+                               const regex = /^[0-9a-zA-Z ]*$/; //matches any number, letters and white space only
+                                if (event.target.value === "" || regex.test(event.target.value)) {
+                                    setNameError("");
+                                    setRoomName(event.target.value as string);
+                                }
+                                else
+                                    setNameError("Forbidden character.")
+
+                           }}></TextField>
+                {roomID}
                 <FormControl fullWidth>
                     <InputLabel id="voting-system-select-label">Voting system</InputLabel>
                     <Select
@@ -21,7 +48,7 @@ export default function NewGame() {
                         id="voting-system-select"
                         value={votingSystem}
                         label="Voting system"
-                        onChange={(event: SelectChangeEvent) => {
+                        onChange={(event) => {
                             setVotingSystem(event.target.value as string);
                         }}
                     >
@@ -34,8 +61,7 @@ export default function NewGame() {
                             deck... (coming soon)</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant={"contained"} className={""}>Create game</Button>
-            {/* todo : https://mui.com/material-ui/guides/interoperability/#tailwind-css*/}
+                <Button variant={"contained"} className={""} disabled={!!nameError} onClick={() => router.push(`/poker/${roomID}`)}>Create game</Button>
             </div>
         </div>
     )
