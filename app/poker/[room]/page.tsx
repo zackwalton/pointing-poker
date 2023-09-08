@@ -3,8 +3,9 @@ import {io} from "socket.io-client";
 
 interface Props {
     params: {
-        room: number
-    }
+        room: string
+    },
+    roomName: string
 }
 
 
@@ -13,17 +14,8 @@ export default function PointingRoom({ params }: Props) {
     if (!room) {
         return (<p>Error: Missing room ID</p>)
     }
-    if (isNaN(room)) {
-        return (<p>Error: Invalid room ID</p>)
-    }
-    const socketURL = 'http://localhost:4000';
+    console.log(params);
 
-    const socket = io(socketURL);
-    // Join room (server-side only)
-    socket.emit("user-join-room", room)
-    socket.on("user-joined", () => {
-        console.log('user-join-room')
-    })
     return (
         <div>
             {room}
