@@ -18,16 +18,6 @@ export default function Home() {
     function connectSocket() {
         if (!socket?.connected) {
             socket = io(socketURL)
-            socket.on("connect", () => {
-                console.log("connect")
-                if (!connectedUsers.some((user) => {
-                    return user.name = data.name;
-                })) {
-                setConnectedUsers(connectedUsers => [...connectedUsers, data]);
-                } else {
-                    console.log("User " + data.name + " is already connected.")
-                }
-            })
         }
     }
 
@@ -42,7 +32,7 @@ export default function Home() {
           <Button variant="outlined" onClick={disconnectSocket}>Disconnect</Button>
 
             {connectedUsers.map((user, index) => {
-                return <p key={index}>{user.name} + ' ' + {user.points}</p>
+                return <p key={index}>{user.name} - {user.points}</p>
             })}
         </div>
     );

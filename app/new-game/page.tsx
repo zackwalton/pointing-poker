@@ -4,12 +4,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import {Button, Select, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
 import slugify from "slugify";
 import Link from "next/link";
 
 export default function NewGame() {
-    const router = useRouter();
 
     const [roomName, setRoomName] = useState<string>("");
     const [nameError, setNameError] = useState<string>("");
@@ -17,13 +15,11 @@ export default function NewGame() {
     const [votingSystem, setVotingSystem] = useState<string>("fibonacci");
 
     useEffect(() => {
-        setRoomID(generateRoomID());
-    }, [roomName])
 
-    function generateRoomID() {
-        return slugify(roomName != "" ? roomName : "Planning Poker Game",
-            {lower: true, remove: /[*+~.()'"!:@#^]/g, strict: true}) + '-' + Math.random().toString().slice(2, 10)
-    }
+        setRoomID(slugify(roomName != "" ? roomName : "Planning Poker Game", {
+            lower: true, remove: /[*+~.()'"!:@#^]/g, strict: true}) +
+            '-' + Math.random().toString().slice(2, 10));
+    }, [roomName])
 
     const roomNameMax = 50;
 

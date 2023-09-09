@@ -7,32 +7,27 @@ const io = new Server(server, {
   cors: {origin: "*"}
 });
 
-function logRooms() {
-  console.log(io.of("/").adapter.rooms)
-  console.log(io.of("/").adapter.sids)
-}
-
-io.on('connection', (socket) => {
+io.on('connection', (socket: any) => {
   console.log('Connected: ' + socket.id);
   socket.on('disconnect', () => {
     console.log('Disconnected: ' + socket.id);
   });
-  socket.on("check-room", (room) => {
+  socket.on("check-room", (room: any) => {
     const existingRoom = io.of("/").adapter.rooms.get(room.toString())
     socket.on(room.toString()).emit(`room-${room}-exists`, existingRoom)
   })
-  socket.on("user-join-room", (room) => {
+  socket.on("user-join-room", (room: any) => {
     const existingRoom = io.of("/").adapter.rooms.get(room.toString())
     socket.join(room);
     socket.to(room).emit("user-join-room", existingRoom);
   })
 });
 
-io.of('/').adapter.on("create-room", (room) => {
+io.of('/').adapter.on("create-room", (room: any) => {
   console.log(`+ Created room ${room} `);
 });
 
-io.of('/').adapter.on("join-room", (room, id) => {
+io.of('/').adapter.on("join-room", (room: any, id: any) => {
   console.log(`Socket ${id} -> Room ${room}`);
 });
 
