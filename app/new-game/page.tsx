@@ -1,25 +1,16 @@
 'use client'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import {Button, Select, TextField} from "@mui/material";
-import {useEffect, useState} from "react";
-import slugify from "slugify";
-import Link from "next/link";
+import {useState} from "react";
+import {createRoom} from "@/app/poker/[room]/actions";
 
 export default function NewGame() {
 
     const [roomName, setRoomName] = useState<string>("");
     const [nameError, setNameError] = useState<string>("");
-    const [roomID, setRoomID] = useState<string>();
     const [votingSystem, setVotingSystem] = useState<string>("fibonacci");
 
-    useEffect(() => {
-
-        setRoomID(slugify(roomName != "" ? roomName : "Planning Poker Game", {
-            lower: true, remove: /[*+~.()'"!:@#^]/g, strict: true}) +
-            '-' + Math.random().toString().slice(2, 10));
-    }, [roomName])
 
     const roomNameMax = 50;
 
@@ -37,8 +28,7 @@ export default function NewGame() {
                         setNameError("Forbidden character.")
 
                 }}></TextField>
-                {roomID}
-                <FormControl fullWidth>
+                <form action={createRoom} className={"flex flex-col gap-4"}>
                     <InputLabel id="voting-system-select-label">Voting system</InputLabel>
                     <Select
                         labelId="voting-system-select-label"
@@ -57,13 +47,8 @@ export default function NewGame() {
                         <MenuItem value={"custom"} className={"text-bold text-indigo-500"} disabled={true}>
                             Create custom deck... (coming soon)</MenuItem>
                     </Select>
-                </FormControl>
-                <Link href={{
-                    pathname: `/poker/${roomID}`,
-
-                }}>
-                    <Button variant={"contained"} className={"w-full"} disabled={!!nameError}>Create game</Button>
-                </Link>
+                    <Button type={"submit"} variant={"contained"} disabled={!!nameError}>Create game</Button>
+                </form>
             </div>
         </div>
     )
