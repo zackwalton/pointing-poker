@@ -2,7 +2,7 @@
 
 Run the socket.io server (hosts server sockets):
 ```bash
-node .\socket-server\index.ts
+node .\socket-server\index.js
 ```
 
 Run the development server (hosts NextJS + React):
