@@ -3,7 +3,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import {Button, Select, TextField} from "@mui/material";
 import {useState} from "react";
-import {createRoom} from "@/app/poker/[room]/actions";
+import {createRoom} from "@/app/poker/[id]/actions";
 
 export default function NewGame() {
 
@@ -17,22 +17,23 @@ export default function NewGame() {
     return (
         <div className={"flex align-middle justify-center"}>
             <div className={"w-2/3 h-2/3 flex flex-col gap-5"}>
-                <TextField id={"name"} label={"Session name"} variant={"outlined"}
-                           error={!!nameError} inputProps={{maxLength: roomNameMax}}
-                           helperText={nameError || `${roomName.length}/${roomNameMax}`} onChange={(event) => {
-                    const regex = /^[0-9a-zA-Z!@#.' ]*$/;
-                    if (event.target.value === "" || regex.test(event.target.value)) {
-                        setNameError("");
-                        setRoomName(event.target.value as string);
-                    } else
-                        setNameError("Forbidden character.")
-
-                }}></TextField>
                 <form action={createRoom} className={"flex flex-col gap-4"}>
-                    <InputLabel id="voting-system-select-label">Voting system</InputLabel>
+                    <TextField id={"text-field-name"} name={"name"} label={"Session name"} variant={"outlined"}
+                               error={!!nameError} inputProps={{maxLength: roomNameMax}}
+                               helperText={nameError || `${roomName.length}/${roomNameMax}`} onChange={(event) => {
+                        const regex = /^[0-9a-zA-Z!@#.' ]*$/;
+                        if (event.target.value === "" || regex.test(event.target.value)) {
+                            setNameError("");
+                            setRoomName(event.target.value as string);
+                        } else
+                            setNameError("Forbidden character.")
+
+                    }}></TextField>
+                    <InputLabel id="label-select-voting-system">Voting system</InputLabel>
                     <Select
-                        labelId="voting-system-select-label"
-                        id="voting-system-select"
+                        labelId="label-select-voting-system"
+                        id="select-voting-system"
+                        name="voting-system"
                         value={votingSystem}
                         label="Voting system"
                         onChange={(event) => {
