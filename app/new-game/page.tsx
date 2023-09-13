@@ -45,8 +45,8 @@ export default function NewGame() {
                             Modified Fibonacci (0, ½, 1, 3, 5, 8, 13, 20, 40, 100, ?, ☕)</MenuItem>
                         <MenuItem value={"t-shirts"}>T-shirts (xxs, xs, s, m, l, xl, xxl, ?, ☕)</MenuItem>
                         <MenuItem value={"2powers"}>Powers of 2 (0, 1, 2, 4, 8, 16, 32, 64, ?, ☕)</MenuItem>
-                        <MenuItem value={"custom"} className={"text-bold text-indigo-500"} disabled={true}>
-                            Create custom deck... (coming soon)</MenuItem>
+                        {/*<MenuItem value={"custom"} className={"text-bold text-indigo-500"} disabled={true}>*/}
+                        {/*    Create custom deck... (coming soon)</MenuItem>*/}
                     </Select>
                     <Button type={"submit"} variant={"contained"} disabled={!!nameError}>Create game</Button>
                 </form>

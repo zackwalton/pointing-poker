@@ -12,14 +12,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('Disconnected: ' + socket.id);
   });
-  socket.on("check-room", (room) => {
-    const existingRoom = io.of("/").adapter.rooms.get(room.toString())
-    socket.on(room.toString()).emit(`room-${room}-exists`, existingRoom)
-  })
-  socket.on("user-join-room", (room) => {
-    const existingRoom = io.of("/").adapter.rooms.get(room.toString())
-    socket.join(room);
-    socket.to(room).emit("user-join-room", existingRoom);
+  socket.on("add-to-room", (data) => {
+    console.log()
+    socket.join(data.id);
+    socket.on(data.id).emit("joined-room", data)
   })
 });
 
