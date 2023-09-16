@@ -2,22 +2,36 @@
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import {Button, Select, TextField} from "@mui/material";
-import {useState} from "react";
-import {createRoom} from "@/app/poker/[id]/actions";
+import {useCallback, useState} from "react";
+import slugify from "slugify";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 export default function NewGame() {
+    const router = useRouter()
 
     const [roomName, setRoomName] = useState<string>("");
     const [nameError, setNameError] = useState<string>("");
     const [votingSystem, setVotingSystem] = useState<string>("fibonacci");
 
-
     const roomNameMax = 50;
+
+    function roomRedirect(formData: FormData) {
+        let name= formData.get('name') as string|null;
+        if (name == '') name = null;
+        const votingSystem = formData.get('voting-system') as string|null;
+        const id = slugify(name ?? 'poker', {lower: true, remove: /[*+~.()'"!:@#^]/g, strict: true}) +
+                '-' + Math.random().toString().slice(2, 10)
+        router.push(`/poker/${id}?name=${name ?? 'Planning poker game'}&voting-system=${votingSystem}`)
+    }
 
     return (
         <div className={"flex align-middle justify-center"}>
             <div className={"w-2/3 h-2/3 flex flex-col gap-5"}>
-                <form action={createRoom} className={"flex flex-col gap-4"}>
+                <form className={"flex flex-col gap-4"} onSubmit={(event) => {
+                        event.preventDefault();
+                        const formData = new FormData(event.target as HTMLFormElement);
+                        roomRedirect(formData);
+                    }}>
                     <TextField id={"text-field-name"} name={"name"} label={"Session name"} variant={"outlined"}
                                error={!!nameError} inputProps={{maxLength: roomNameMax}}
                                helperText={nameError || `${roomName.length}/${roomNameMax}`} onChange={(event) => {

@@ -1,12 +1,24 @@
 "use client"
 import {io} from "socket.io-client";
-import useSWR from "swr";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 interface Props {
-    params: {
-        id: string
-    }
+    params: {id: string},
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+
+interface Room {
+    roomID: string
+    socketID: string
+    name: string
+    votingSystem: string
+    connectedClients: [string]
+}
+
+interface Client {
+    id: string
+    name: string
+    points: string | number
 }
 
 const VotingSystems = {
@@ -16,41 +28,39 @@ const VotingSystems = {
     "2powers": [0, 1, 2, 4, 8, 16, 32, 64, '?', '☕']
 }
 
-export interface Room {
-    id: string,
-    name: string,
-    votingSystem: string
-}
-
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function PointingRoom({params}: Props) {
+export default function PointingRoom({params, searchParams}: Props) {
     const id = params.id;
-
     // hook to fetch data about room
-    const {data, error, isLoading, mutate} = useSWR<Room>(`/api/rooms/${id}`, fetcher)
-    const [dialogOpen, setDialogOpen] = useState(true);
-    const [username, setUsername] = useState('username');
+    // const {data, error, isLoading, mutate} = useSWR<Room>(`/api/rooms/${id}`, fetcher)
+    const [username, setUsername] = useState<string>('Guest');
+    const [selectedPoints, setSelectedPoints] = useState<string|null>(null);
 
-    if (!id) {
-        return (<p>Error: Missing room ID.</p>)
-    }
+    const [roomName, setRoomName] = useState<string>(searchParams.name as string ?? 'Default name from state.');
+    const [votingSystem, setVotingSystem] = useState<string>(searchParams.votingSystem as string ?? 'fibonacci');
+    const [connectedClients, setConnectedClients] = useState<[string]|[]>([])
 
-    if (error || (!isLoading && !data)) return <div>Error: Failed to fetch data.</div>
-    if (!data) return <div>loading...</div>
-    const room: Room = data;
+    useEffect(() => {
+        // remove query parameters
+        window.history.replaceState(null, '', window.location.pathname);
+    }, [])
+    if (!id) return (<p>Error: Missing room ID.</p>)
+
 
     // connect to socket and sent join event
-    const socketURL = 'http://localhost:4000';
+    const socketURL = 'http://localhost:4000'
     const socket = io(socketURL);
-    socket.emit("add-to-room", {room: id, name: username});
-    socket.on("joined-room", (data) => {
+    console.log(socket.id);
+    socket.emit("add-to-room", {
+        room: {roomID: id, name: roomName, votingSystem: votingSystem} as Room,
+        client: {id: socket.id, name: username, points: selectedPoints} as Client});
+    socket.on("roomData", (data) => {
         console.log(data);
     });
     return (
         <div>
-            {id}
-            {room.id}
+            <h1>{roomName}</h1>
         </div>
     )
 }
